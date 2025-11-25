@@ -1,8 +1,12 @@
+from services.threat_service import save_threat
 import feedparser
 from datetime import datetime
 from typing import List, Dict
 
-MSB_RSS_URL = "https://www.msb.se/RSS/nyheter/"
+
+MSB_RSS_URL = "https://www.msb.se/sv/rss-floden/rss-alla-nyheter-fran-msb-om-rakel/"
+
+
 
 def parse_date(raw_date: str) -> datetime:
     try:
@@ -26,6 +30,12 @@ def fetch_msb_feed() -> List[Dict]:
         items.append(item)
 
     return items
+
+items = fetch_msb_feed()
+
+for item in items:
+    save_threat(item)
+
 
 if __name__ == "__main__":
     data = fetch_msb_feed()
